@@ -1,5 +1,6 @@
 
 #include <ethash/keccak.hpp>
+#include <ethash/ethash.hpp>
 
 #include <string>
 #include <iostream>
@@ -33,8 +34,29 @@ int main() {
     ethash::hash512 h512 = ethash::keccak512(nullptr, 0);
     assert(toHex(h512) == "0eab42de4c3ceb9235fc91acffe746b29c29a8c366b7c60e4e67c466f36a4304c00fa9caf9d87976ba469bcbe06713b435f091ef2769fb160cdab33d3670680e");
 
+    const int epoch_number = 208;
+
+    static constexpr size_t context_alloc_size = sizeof(ethash::hash512);
+
+    const int light_cache_num_items = ethash::calculate_light_cache_num_items(epoch_number);
+    const size_t light_cache_size = ethash::get_light_cache_size(light_cache_num_items);
+    const size_t alloc_size = context_alloc_size + light_cache_size;
+
+    char* const alloc_data = static_cast<char*>(std::malloc(alloc_size));
+    if (!alloc_data) {
+        std::cout << "error!" << std::endl;
+
+        return EXIT_FAILURE;
+    }
+
+    ethash::hash512 *light_cache = reinterpret_cast<ethash::hash512*>(alloc_data + context_alloc_size);
+
+    const ethash::hash256 epoch_seed = ethash::calculate_epoch_seed(epoch_number);
+    ethash::build_light_cache(light_cache, light_cache_num_items, epoch_seed);
 
     std::cout << "done!" << std::endl;
+
+    return EXIT_SUCCESS;
 }
 
 /*****************************************************************************/

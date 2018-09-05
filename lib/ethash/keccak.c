@@ -57,8 +57,7 @@ static INLINE ALWAYS_INLINE uint64_t load_le(const uint8_t* data)
     return to_le64(word);
 }
 
-static INLINE ALWAYS_INLINE void keccak(
-    uint64_t* out, size_t bits, const uint8_t* data, size_t size)
+static INLINE ALWAYS_INLINE void keccak(uint64_t* out, size_t bits, const uint8_t* data, size_t size)
 {
     static const size_t word_size = sizeof(uint64_t);
     const size_t hash_size = bits / 8;

@@ -48,7 +48,6 @@ struct result
     hash256 mix_hash;
 };
 
-
 /// Alias for ethash_calculate_light_cache_num_items().
 static constexpr auto calculate_light_cache_num_items = ethash_calculate_light_cache_num_items;
 
@@ -88,10 +87,15 @@ inline constexpr uint64_t get_full_dataset_size(int num_items) noexcept
 }
 
 /// Owned unique pointer to an epoch context.
-using epoch_context_ptr = std::unique_ptr<epoch_context, decltype(&ethash_destroy_epoch_context)>;
+using epoch_context_ptr = std::unique_ptr<
+     epoch_context
+    ,decltype(&ethash_destroy_epoch_context)
+>;
 
-using epoch_context_full_ptr =
-    std::unique_ptr<epoch_context_full, decltype(&ethash_destroy_epoch_context_full)>;
+using epoch_context_full_ptr = std::unique_ptr<
+     epoch_context_full
+    ,decltype(&ethash_destroy_epoch_context_full)
+>;
 
 /// Creates Ethash epoch context.
 ///
@@ -141,4 +145,7 @@ const epoch_context& get_global_epoch_context(int epoch_number);
 
 /// Get global shared epoch context with full dataset initialized.
 const epoch_context_full& get_global_epoch_context_full(int epoch_number);
+
+void build_light_cache(hash512* cache, int num_items, const hash256& seed) noexcept;
+
 }  // namespace ethash

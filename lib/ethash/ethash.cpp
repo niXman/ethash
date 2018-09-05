@@ -347,8 +347,6 @@ int ethash_calculate_full_dataset_num_items(int epoch_number) noexcept
     return num_items;
 }
 
-namespace
-{
 epoch_context_full* create_epoch_context(int epoch_number, bool full) noexcept
 {
     static_assert(sizeof(epoch_context_full) < sizeof(hash512), "epoch_context too big");
@@ -389,7 +387,6 @@ epoch_context_full* create_epoch_context(int epoch_number, bool full) noexcept
     };
     return context;
 }
-}  // namespace
 
 epoch_context* ethash_create_epoch_context(int epoch_number) noexcept
 {

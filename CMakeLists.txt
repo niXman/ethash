@@ -8,4 +8,6 @@ include_directories(include)
 add_executable(ethash
     lib/ethash/keccak.c
     lib/ethash/keccakf1600.c
+    lib/ethash/primes.c
+    lib/ethash/ethash.cpp
     main.cpp)
