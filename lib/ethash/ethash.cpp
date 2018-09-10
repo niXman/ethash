@@ -202,8 +202,7 @@ inline hash256 hash_final(const hash512& seed, const hash256& mix_hash)
     return keccak256(final_data, sizeof(final_data));
 }
 
-inline hash256 hash_kernel(
-    const epoch_context& context, const hash512& seed, lookup_fn lookup) noexcept
+inline hash256 hash_kernel(const epoch_context& context, const hash512& seed, lookup_fn lookup) noexcept
 {
     static constexpr size_t mix_hwords = sizeof(hash1024) / sizeof(uint32_t);
     const uint32_t index_limit = static_cast<uint32_t>(context.full_dataset_num_items);
@@ -260,15 +259,13 @@ result hash(const epoch_context_full& context, const hash256& header_hash, uint6
     return {hash_final(seed, mix_hash), mix_hash};
 }
 
-bool verify_final_hash(const hash256& header_hash, const hash256& mix_hash, uint64_t nonce,
-    const hash256& boundary) noexcept
+bool verify_final_hash(const hash256& header_hash, const hash256& mix_hash, uint64_t nonce, const hash256& boundary) noexcept
 {
     const hash512 seed = hash_seed(header_hash, nonce);
     return is_less_or_equal(hash_final(seed, mix_hash), boundary);
 }
 
-bool verify(const epoch_context& context, const hash256& header_hash, const hash256& mix_hash,
-    uint64_t nonce, const hash256& boundary) noexcept
+bool verify(const epoch_context& context, const hash256& header_hash, const hash256& mix_hash, uint64_t nonce, const hash256& boundary) noexcept
 {
     const hash512 seed = hash_seed(header_hash, nonce);
     if (!is_less_or_equal(hash_final(seed, mix_hash), boundary))
@@ -278,8 +275,7 @@ bool verify(const epoch_context& context, const hash256& header_hash, const hash
     return std::memcmp(expected_mix_hash.bytes, mix_hash.bytes, sizeof(mix_hash)) == 0;
 }
 
-uint64_t search_light(const epoch_context& context, const hash256& header_hash,
-    const hash256& boundary, uint64_t start_nonce, size_t iterations) noexcept
+uint64_t search_light(const epoch_context& context, const hash256& header_hash, const hash256& boundary, uint64_t start_nonce, size_t iterations) noexcept
 {
     const uint64_t end_nonce = start_nonce + iterations;
     for (uint64_t nonce = start_nonce; nonce < end_nonce; ++nonce)
@@ -291,8 +287,7 @@ uint64_t search_light(const epoch_context& context, const hash256& header_hash,
     return 0;
 }
 
-uint64_t search(const epoch_context_full& context, const hash256& header_hash,
-    const hash256& boundary, uint64_t start_nonce, size_t iterations) noexcept
+uint64_t search(const epoch_context_full& context, const hash256& header_hash, const hash256& boundary, uint64_t start_nonce, size_t iterations) noexcept
 {
     const uint64_t end_nonce = start_nonce + iterations;
     for (uint64_t nonce = start_nonce; nonce < end_nonce; ++nonce)

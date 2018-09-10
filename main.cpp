@@ -54,6 +54,11 @@ int main() {
     const ethash::hash256 epoch_seed = ethash::calculate_epoch_seed(epoch_number);
     ethash::build_light_cache(light_cache, light_cache_num_items, epoch_seed);
 
+//    std::uint64_t nonce = 1234;
+//    ethash::hash256 header = {};
+//    ethash::epoch_context_full_ptr epoch_ctx = ethash::create_epoch_context_full(epoch_number);
+//    ethash::result res = ethash::hash(*epoch_ctx, header, nonce);
+
     std::cout << "done!" << std::endl;
 
     return EXIT_SUCCESS;
