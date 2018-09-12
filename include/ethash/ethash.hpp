@@ -148,4 +148,10 @@ const epoch_context_full& get_global_epoch_context_full(int epoch_number);
 
 void build_light_cache(hash512* cache, int num_items, const hash256& seed) noexcept;
 
+/// Calculates a full dataset item
+///
+/// This consist of two 512-bit items produced by calculate_dataset_item_partial().
+/// Here the computation is done interleaved for better performance.
+hash1024 calculate_dataset_item(const epoch_context& context, uint32_t index) noexcept;
+
 }  // namespace ethash

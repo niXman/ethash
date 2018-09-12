@@ -36,28 +36,26 @@ int main() {
 
     const int epoch_number = 208;
 
-    static constexpr size_t context_alloc_size = sizeof(ethash::hash512);
+//    static constexpr size_t context_alloc_size = sizeof(ethash::hash512);
+//
+//    const int light_cache_num_items = ethash::calculate_light_cache_num_items(epoch_number);
+//    const size_t light_cache_size = ethash::get_light_cache_size(light_cache_num_items);
+//    const size_t alloc_size = context_alloc_size + light_cache_size;
+//
+//    char* const alloc_data = static_cast<char*>(std::malloc(alloc_size));
+//    if (!alloc_data) {
+//        std::cout << "error!" << std::endl;
+//
+//        return EXIT_FAILURE;
+//    }
+//
+//    ethash::hash512 *light_cache = reinterpret_cast<ethash::hash512*>(alloc_data + context_alloc_size);
+//
+//    const ethash::hash256 epoch_seed = ethash::calculate_epoch_seed(epoch_number);
+//    ethash::build_light_cache(light_cache, light_cache_num_items, epoch_seed);
 
-    const int light_cache_num_items = ethash::calculate_light_cache_num_items(epoch_number);
-    const size_t light_cache_size = ethash::get_light_cache_size(light_cache_num_items);
-    const size_t alloc_size = context_alloc_size + light_cache_size;
-
-    char* const alloc_data = static_cast<char*>(std::malloc(alloc_size));
-    if (!alloc_data) {
-        std::cout << "error!" << std::endl;
-
-        return EXIT_FAILURE;
-    }
-
-    ethash::hash512 *light_cache = reinterpret_cast<ethash::hash512*>(alloc_data + context_alloc_size);
-
-    const ethash::hash256 epoch_seed = ethash::calculate_epoch_seed(epoch_number);
-    ethash::build_light_cache(light_cache, light_cache_num_items, epoch_seed);
-
-//    std::uint64_t nonce = 1234;
-//    ethash::hash256 header = {};
-//    ethash::epoch_context_full_ptr epoch_ctx = ethash::create_epoch_context_full(epoch_number);
-//    ethash::result res = ethash::hash(*epoch_ctx, header, nonce);
+    ethash::epoch_context_ptr epoch_ctx = ethash::create_epoch_context(epoch_number);
+    const ethash::hash1024 di = ethash::calculate_dataset_item(*epoch_ctx, 0u);
 
     std::cout << "done!" << std::endl;
 
