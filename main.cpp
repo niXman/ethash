@@ -54,8 +54,15 @@ int main() {
 //    const ethash::hash256 epoch_seed = ethash::calculate_epoch_seed(epoch_number);
 //    ethash::build_light_cache(light_cache, light_cache_num_items, epoch_seed);
 
-    ethash::epoch_context_ptr epoch_ctx = ethash::create_epoch_context(epoch_number);
-    const ethash::hash1024 di = ethash::calculate_dataset_item(*epoch_ctx, 0u);
+//    ethash::epoch_context_ptr epoch_ctx = ethash::create_epoch_context(epoch_number);
+//    const ethash::hash1024 di = ethash::calculate_dataset_item(*epoch_ctx, 0u);
+
+    static const std::uint8_t header[] = {};
+    static const std::uint64_t nonce = 0;
+
+    ethash::epoch_context ctx = ethash::get_global_epoch_context(epoch_number);
+    ethash::hash256 header_hash = ethash::hash256_from_bytes(header);
+    ethash::result res = ethash::hash(ctx, header_hash, nonce);
 
     std::cout << "done!" << std::endl;
 

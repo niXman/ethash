@@ -10,4 +10,5 @@ add_executable(ethash
     lib/ethash/keccakf1600.c
     lib/ethash/primes.c
     lib/ethash/ethash.cpp
+    lib/ethash/managed.cpp
     main.cpp)
